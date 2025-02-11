@@ -1,4 +1,6 @@
 class DirectorsController < ApplicationController
+
+
   def index
     matching_directors = Director.all
     @list_of_directors = matching_directors.order({ :created_at => :desc })
@@ -13,6 +15,45 @@ class DirectorsController < ApplicationController
     @the_director = matching_directors.at(0)
 
     render({ :template => "director_templates/show" })
+  end
+
+  def create
+    name = params.fetch("query_name")
+    dob = params.fetch("query_dob")
+    bio = params.fetch("query_bio")
+    image = params.fetch("query_image")
+
+    d = Director.new
+    d.name = name
+    d.dob = dob
+    d.bio = bio
+    d.image = image
+    d.save
+
+    redirect_to("/directors")
+  end
+
+  def destroy
+    the_id = params.fetch("an_id")
+    matching_directors = Director.where({ :id => the_id })
+    the_director = matching_directors.at(0)
+    the_director.destroy
+    redirect_to("/directors")
+  end
+
+  def update
+    the_id = params.fetch("the_id")
+    matching_directors = Director.where({ :id => the_id })
+    the_director = matching_directors.at(0)
+
+    the_director.name = params.fetch("query_name")
+    the_director.dob = params.fetch("query_dob")
+    the_director.bio = params.fetch("query_bio")
+    the_director.image = params.fetch("query_image")
+
+    the_director.save
+
+    redirect_to("/directors/#{the_director.id}")
   end
 
   def max_dob

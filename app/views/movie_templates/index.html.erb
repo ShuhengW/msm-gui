@@ -35,7 +35,7 @@
 </div>
 
   <button type="submit">
-    Add movie
+    Create movie
   </button>
 </form>
 
@@ -91,7 +91,11 @@
       
       <% the_director = matching_directors.at(0) %>
 
-      <%= the_director.name %>
+      <% if the_director == nil %>
+        Uh oh! We weren't able to find a director for this movie.
+      <% else %>
+        <%= the_director.name %>
+      <% end %>
     </td>
 
     <td>
