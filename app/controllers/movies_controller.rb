@@ -16,16 +16,21 @@ class MoviesController < ApplicationController
   end
 
   def create
-    m = Movie.new
-
-    m.title = params.fetch("the_title")
-    m.year = params.fetch("the_year")
-    m.duration = params.fetch("the_duration")
-    m.description = params.fetch("the_description")
-    m.image = params.fetch("the_image")
-    m.director_id = params.fetch("the_director_id")
-
-    m.save
+    title = params.fetch("the_title")
+    year = params.fetch("the_year").to_i
+    duration = params.fetch("the_duration").to_i
+    description = params.fetch("the_description")
+    image = params.fetch("the_image")
+    director_id = params.fetch("the_director_id").to_i
+    
+    Movie.create({
+      title: title,
+      year: year,
+      duration: duration,
+      description: description,
+      image: image,
+      director_id: director_id
+    })
 
     redirect_to("/movies")
     end
